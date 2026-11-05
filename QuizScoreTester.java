@@ -3,7 +3,7 @@
  *
  * 1. What does Integer.parseInt("007") + 1 evaluate to? What does
  *    "007" + 1 evaluate to? Explain why the two answers differ.
- *    Answer:
+ *    Answer: 8, 
  *
  * 2. After Integer points = null; runs, what happens when Java runs
  *    int total = points + 5; ? Explain why.
