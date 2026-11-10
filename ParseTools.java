@@ -15,15 +15,18 @@ public class ParseTools {
     }
 
     public static boolean isInteger(String text) {
-        if (text == null) {
+        if (text == null || text.isEmpty()) {
             return false;
         }
-        for (int i = 0; i < text.length(); i++) {
-            char current = text.charAt(i);
-            if (((i == 0) && (!Character.isDigit(current))) || ((i == 0) && !(current == '-'))) {
+        int start = 0;
+        if (text.charAt(0) == '-') {
+            if (text.length() == 1) {
                 return false;
             }
-            if (!(Character.isDigit(current))) {
+            start = 1;
+        }
+        for (int i = start; i < text.length(); i++) {
+            if (!Character.isDigit(text.charAt(i))) {
                 return false;
             }
         }
@@ -44,6 +47,38 @@ public class ParseTools {
                 return i;
             }
         }
-        return 0;
+        return -1;
+    }
+
+    public static boolean isDecimal(String text) {
+        if (text == null || text.isEmpty()) {
+            return false;
+        }
+
+        int i = 0;
+        if (text.charAt(0) == '-') {
+            i++;
+        }
+
+        if (i >= text.length() || !Character.isDigit(text.charAt(i))) {
+            return false;
+        }
+
+        int dotCount = 0;
+        for (; i < text.length(); i++) {
+            char current = text.charAt(i);
+            if (Character.isDigit(current)) {
+                continue;
+            } else if (current == '.') {
+                dotCount++;
+                if (dotCount > 1) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

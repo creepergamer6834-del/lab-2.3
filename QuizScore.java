@@ -42,8 +42,6 @@ public class QuizScore {
         return p == 100.0;
     }
 
-}
-
     public boolean sameScoreAs(QuizScore other) {
         if (other == null) {
             return false;
