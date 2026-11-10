@@ -10,46 +10,52 @@ public class QuizScore {
     }
 
     public Integer getPoints() {
-        char look = '/';
-        String text = "";
-        for (int i = 0; i < typed.length(); i++) {
-            if (typed.charAt(i) == look) {
-                text = typed.substring(0, i - 1);
-            }
+        int slashIndex = typed.indexOf('/');
+        if (slashIndex == -1) {
+            return null;
         }
-        return ParseTools.parseOrNull(text);
+        return ParseTools.parseOrNull(typed.substring(0, slashIndex));
     }
 
     public Integer getOutOf() {
-        int a = ParseTools.locate(typed, '/');
-        int b = typed.length() - 1;
-        String c = typed.substring(a + 1, b);
-        return ParseTools.parseOrNull(c);
+        int slashIndex = typed.indexOf('/');
+        if (slashIndex == -1 || slashIndex == typed.length() - 1) {
+            return null;
+        }
+        return ParseTools.parseOrNull(typed.substring(slashIndex + 1));
     }
 
     public Double percent() {
-        int a = ParseTools.locate(typed, '/');
-        int b = typed.length() - 1;
-        String c = typed.substring(a + 1, b);
-        String d = typed.substring(0, a - 1);
-        Double ans = 0.0;
-        if ((ParseTools.parseOrNull(c).equals(null)) || (ParseTools.parseOrNull(d).equals(null))) {
+        Integer points = getPoints();
+        Integer outOf = getOutOf();
+        if (points == null || outOf == null || outOf == 0) {
             return null;
-        } else {
-            double e = Double.parseDouble(c);
-            double f = Double.parseDouble(d);
-            ans = e / f;
         }
-        return ans;
+        return (double) points * 100.0 / outOf;
     }
 
     public boolean isPerfect() {
-        if ((percent() == null)) {
+        Double p = percent();
+        if (p == null) {
             return false;
-        } else if (percent() != 1) {
-            return false;
-        } else {
-            return true;
         }
+        return p == 100.0;
+    }
+
+}
+
+    public boolean sameScoreAs(QuizScore other) {
+        if (other == null) {
+            return false;
+        }
+        Integer p1 = this.getPoints();
+        Integer t1 = this.getOutOf();
+        Integer p2 = other.getPoints();
+        Integer t2 = other.getOutOf();
+
+        if (p1 == null || t1 == null || p2 == null || t2 == null) {
+            return false;
+        }
+        return p1.equals(p2) && t1.equals(t2);
     }
 }
