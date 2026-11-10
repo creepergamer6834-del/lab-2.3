@@ -32,12 +32,24 @@ public class QuizScore {
         int b = typed.length() - 1;
         String c = typed.substring(a + 1, b);
         String d = typed.substring(0, a - 1);
+        Double ans = 0.0;
         if ((ParseTools.parseOrNull(c).equals(null)) || (ParseTools.parseOrNull(d).equals(null))) {
             return null;
         } else {
             double e = Double.parseDouble(c);
             double f = Double.parseDouble(d);
+            ans = e / f;
         }
+        return ans;
+    }
 
+    public boolean isPerfect() {
+        if ((percent() == null)) {
+            return false;
+        } else if (percent() != 1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
